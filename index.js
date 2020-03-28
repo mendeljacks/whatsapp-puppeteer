@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 
 const message_objs = [
     {
-        contact: 'person1',
+        contact: 'John Smith',
         messages: [
             "We're no strangers to love",
             "You know the rules and so do I",
