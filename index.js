@@ -1,5 +1,8 @@
 const puppeteer = require('puppeteer');
 
+const xpath_search_box = '/html/body/div[1]/div/div/div[3]/div/div[1]/div/label/div/div[2]'
+const xpath_send_button = '/html/body/div[1]/div/div/div[4]/div/footer/div[1]/div[3]/button'
+
 const message_objs = [
     {
         contact: 'John Smith',
@@ -55,9 +58,10 @@ const message_objs = [
     for (message_obj of message_objs) {
         const contact = message_obj.contact
         const messages = message_obj.messages
-        await page.waitForSelector('._3u328')
+        await page.waitForXPath(xpath_search_box)
         await page.waitFor(1000)
-        await page.type('._3u328', contact);
+        const [search] = await page.$x(xpath_search_box);
+        await search.type(contact);
         await page.waitForSelector(`[title="${contact}"]`)
         await page.waitFor(1000)
         await page.click(`[title="${contact}"]`);
@@ -65,7 +69,8 @@ const message_objs = [
         for (const message of messages) {
             await page.keyboard.type(message);
             await page.waitFor(500)
-            await page.click('._3M-N-');
+            const [send_button] = await page.$x(xpath_send_button)
+            await send_button.click()
             await page.waitFor(500)
         }
 
